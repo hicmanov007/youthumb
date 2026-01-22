@@ -1,6 +1,7 @@
 import "../styles/index.css";
 import { Fragment } from "react";
 import { DefaultSeo } from "next-seo";
+import Footer from "../components/Footer";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -8,15 +9,19 @@ function MyApp({ Component, pageProps }) {
       <DefaultSeo
         title="Youtube Thumbnail Downloader"
         description="Download high-quality thumbnails from YouTube videos."
-        canonical="https://your-website-url.com"
+        canonical="https://www.nepez.com"
         openGraph={{
-          url: "https://your-website-url.com",
+          url: "https://www.nepez.com",
           title: "Youtube Thumbnail Downloader",
           description: "Download high-quality thumbnails from YouTube videos.",
-          site_name: "Youtube Thumbnail Downloader",
+          site_name: "Nepez",
         }}
       />
+
       <Component {...pageProps} />
+
+      {/* Footer visible sur toutes les pages */}
+      <Footer />
     </Fragment>
   );
 }

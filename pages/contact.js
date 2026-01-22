@@ -6,7 +6,7 @@ export default function Contact() {
       <p>If you have any business inquiries or questions, feel free to reach out.</p>
 
       <h2>Business Owner</h2>
-      <p><strong>Full Name:</strong> Hicman Chaabi</p>
+      <p><strong>Full Name:</strong> Hicham Nehhas</p>
       <p><strong>Role:</strong> Owner & Website Manager</p>
 
       <h2>Contact Information</h2>

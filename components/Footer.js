@@ -10,7 +10,8 @@ export default function Footer() {
       <p>
         © {new Date().getFullYear()} Nepez ·
         <a href="/about" style={{ marginLeft: "8px" }}>About Us</a> ·
-        <a href="/contact" style={{ marginLeft: "8px" }}>Contact</a>
+        <a href="/contact" style={{ marginLeft: "8px" }}>Contact</a> ·
+        <a href="/blog" style={{ marginLeft: "8px" }}>Blog</a>
       </p>
 
       <p>

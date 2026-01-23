@@ -7,7 +7,10 @@ export default function BlogIndex() {
       title: "Why Use a YouTube Thumbnail Downloader?",
       slug: "why-use-youtube-thumbnail-downloader",
     },
-    // Plus tard on ajoutera ici les autres articles
+    {
+      title: "Best AI Tools for YouTubers in 2026",
+      slug: "best-ai-tools-for-youtubers-in-2026",
+    },
   ];
 
   return (

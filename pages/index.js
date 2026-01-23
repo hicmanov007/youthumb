@@ -1,124 +1,83 @@
-import Link from "next/link";
-import Head from "next/head";
+import { useState } from "react";
+import copy from "copy-to-clipboard";
 
-export default function Home() {
+const Index = () => {
+  const [videoURL, setVideoURL] = useState("");
+  const [thumbnailOptions, setThumbnailOptions] = useState([]);
+
+  const getYouTubeThumbnail = (url) => {
+    let regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+    let match = url.match(regExp);
+
+    if (match && match[1].length === 11) {
+      const videoURL = match[1];
+      const thumbnailBaseUrl = "http://img.youtube.com/vi/";
+
+      const options = [
+        { resolution: "HD (1280x720)", code: "maxresdefault" },
+        { resolution: "SD (640x480)", code: "sddefault" },
+        { resolution: "Normal (480x360)", code: "hqdefault" },
+        { resolution: "Medium (320x180)", code: "mqdefault" },
+        { resolution: "Low (120x90)", code: "default" },
+      ];
+
+      const thumbnailOptions = options.map((option) => ({
+        resolution: option.resolution,
+        url: `${thumbnailBaseUrl}${videoURL}/${option.code}.jpg`,
+      }));
+
+      setThumbnailOptions(thumbnailOptions);
+      setVideoURL("");
+    } else {
+      setThumbnailOptions([]);
+    }
+  };
+
   return (
-    <>
-      <Head>
-        <title>Nepez.com – AI & YouTube Tools</title>
-        <meta
-          name="description"
-          content="Nepez.com shares AI and YouTube tools tips to help creators grow their channels."
+    <div className="container mx-auto px-4 py-8">
+      <header className="text-center mb-8">
+        <h1 className="text-3xl font-bold mb-2">
+          Youtube Thumbnail Downloader
+        </h1>
+        <p className="text-gray-600">
+          Download high-quality thumbnails from YouTube videos.
+        </p>
+      </header>
+      <div className="text-center">
+        <input
+          type="text"
+          className="w-full md:w-1/2 px-4 py-2 border rounded"
+          placeholder="Enter YouTube URL"
+          value={videoURL}
+          onChange={(e) => setVideoURL(e.target.value)}
         />
-      </Head>
-
-      <main style={{ fontFamily: "Arial, sans-serif", maxWidth: "1000px", margin: "0 auto", padding: "40px 20px" }}>
-        
-        {/* Logo et navigation */}
-        <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "40px" }}>
-          <div style={{ fontWeight: "bold", fontSize: "28px", color: "#0070f3" }}>
-            <img src="/logo-nepez.png" alt="Nepez Logo" style={{ height: "40px" }} /> Nepez
+        <button
+          className="btn-blue mt-2"
+          onClick={() => getYouTubeThumbnail(videoURL)}
+        >
+          Download Thumbnails
+        </button>
+      </div>
+      {thumbnailOptions.length > 0 && (
+        <div className="mt-8">
+          <h2 className="text-xl font-semibold mb-4">Thumbnail Options</h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {thumbnailOptions.map((option, index) => (
+              <div key={index} className="thumbnail-option">
+                <img src={option.url} alt={`Thumbnail ${index + 1}`} />
+                <button
+                  className="btn-blue mt-2"
+                  onClick={() => copy(option.url)}
+                >
+                  Copy Image URL
+                </button>
+              </div>
+            ))}
           </div>
-          <nav>
-            <ul style={{ display: "flex", gap: "20px", listStyle: "none", margin: 0, padding: 0 }}>
-              <li><Link href="/"><a style={{ textDecoration: "none", color: "#000" }}>Accueil</a></Link></li>
-              <li><Link href="/blog"><a style={{ textDecoration: "none", color: "#000" }}>Blog</a></Link></li>
-              <li><Link href="/contact"><a style={{ textDecoration: "none", color: "#000" }}>Contact</a></Link></li>
-            </ul>
-          </nav>
-        </header>
-
-        {/* Hero Section */}
-        <section style={{ textAlign: "center", marginBottom: "60px" }}>
-          <h1 style={{ fontSize: "48px", marginBottom: "20px" }}>Welcome to Nepez.com</h1>
-          <p style={{ fontSize: "18px", color: "#555", marginBottom: "30px" }}>
-            Discover AI tools, YouTube tips, and resources to grow your channel and save time.
-          </p>
-          <Link href="/blog">
-            <a style={{
-              display: "inline-block",
-              padding: "12px 30px",
-              backgroundColor: "#0070f3",
-              color: "#fff",
-              borderRadius: "8px",
-              fontWeight: "bold",
-              fontSize: "16px",
-              textDecoration: "none"
-            }}>
-              Explore the Blog
-            </a>
-          </Link>
-        </section>
-
-        {/* YouTube Thumbnail Downloader Bar */}
-        <section style={{ textAlign: "center", marginBottom: "60px" }}>
-          <h2 style={{ marginBottom: "20px" }}>Download YouTube Thumbnails</h2>
-          <input
-            type="text"
-            placeholder="Paste YouTube URL here"
-            style={{
-              width: "60%",
-              padding: "10px",
-              border: "1px solid #ccc",
-              borderRadius: "6px",
-              marginRight: "10px"
-            }}
-          />
-          <button style={{
-            padding: "10px 20px",
-            backgroundColor: "#0070f3",
-            color: "#fff",
-            border: "none",
-            borderRadius: "6px",
-            fontWeight: "bold",
-            cursor: "pointer"
-          }}>
-            Download
-          </button>
-        </section>
-
-        {/* Latest Articles */}
-        <section>
-          <h2 style={{ fontSize: "28px", marginBottom: "30px", textAlign: "center" }}>Latest Articles</h2>
-          <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", justifyContent: "center" }}>
-
-            {/* Article Card 1 */}
-            <div style={{ width: "300px", textAlign: "center" }}>
-              <img src="/thumbnail1.png" alt="YouTube Thumbnail Downloader" style={{ width: "100%", borderRadius: "6px", marginBottom: "10px" }} />
-              <Link href="/blog/why-use-youtube-thumbnail-downloader">
-                <a style={{ fontSize: "18px", color: "#0070f3", textDecoration: "underline" }}>
-                  Why Use a YouTube Thumbnail Downloader?
-                </a>
-              </Link>
-            </div>
-
-            {/* Article Card 2 */}
-            <div style={{ width: "300px", textAlign: "center" }}>
-              <img src="/thumbnail2.png" alt="AI Tools for YouTubers" style={{ width: "100%", borderRadius: "6px", marginBottom: "10px" }} />
-              <Link href="/blog/best-ai-tools-for-youtubers-in-2026">
-                <a style={{ fontSize: "18px", color: "#0070f3", textDecoration: "underline" }}>
-                  Best AI Tools for YouTubers in 2026
-                </a>
-              </Link>
-            </div>
-
-          </div>
-        </section>
-
-      </main>
-
-      {/* Footer */}
-      <footer style={{ marginTop: "80px", padding: "20px", borderTop: "1px solid #eaeaea", textAlign: "center", fontSize: "14px" }}>
-        <p>
-          © {new Date().getFullYear()} Nepez ·
-          <Link href="/about"><a style={{ marginLeft: "8px" }}>About Us</a></Link> ·
-          <Link href="/contact"><a style={{ marginLeft: "8px" }}>Contact</a></Link> ·
-          <Link href="/blog"><a style={{ marginLeft: "8px" }}>Blog</a></Link>
-        </p>
-        <p>
-          Business Email: <a href="mailto:contact@nepez.com">contact@nepez.com</a>
-        </p>
-      </footer>
-    </>
+        </div>
+      )}
+    </div>
   );
-}
+};
+
+export default Index;

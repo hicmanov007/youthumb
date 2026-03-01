@@ -81,3 +81,6 @@ const Index = () => {
 };
 
 export default Index;
+<a href="/tools/youtube-title-generator">
+  Try our Free YouTube Title Generator
+</a>
